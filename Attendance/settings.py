@@ -76,9 +76,13 @@ WSGI_APPLICATION = 'Attendance.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+      'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'attendance_db',  # Your MySQL database name
+        'USER': 'django_user',    # Your MySQL username
+        'PASSWORD': 'password',   # Your MySQL password
+        'HOST': 'localhost',      # Or the host of your MySQL server
+        'PORT': '3306',           # Default MySQL port
     }
 }
 
