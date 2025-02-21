@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up - Attendance Management System{% endblock %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="static/css/login-signup.css">
+{% endblock %}
+
+{% block content %}
+    <div class="form-container">
+        <div class="form-card">
+            <h2>Sign Up</h2>
+            <form action="#" method="POST">
+                {% csrf_token %}
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="input-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" id="confirm_password" name="confirm_password" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn">Sign Up</button>
+                    <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

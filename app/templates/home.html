@@ -1,11 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Home - Attendance Management System{% endblock %}
+
+{% block content %}
+
+    <div class="welcome">
+        <h2>Welcome to the Attendance Management System</h2>
+        <p>Track, manage, and improve attendance with ease!</p>
+        <div class="cta-buttons">
+            <a href="{% url 'login' %}" class="btn">Login (Existing Users)</a>
+            <a href="{% url 'signup' %}" class="btn">Sign Up (New Users)</a>
+        </div>
+    </div>
+{% endblock %}

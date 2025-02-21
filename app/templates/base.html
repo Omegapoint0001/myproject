@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Attendance Management System{% endblock %}</title>
+    <link rel="stylesheet" href="static/css/base.css'">
+
+ {% block extra_styles %}
+    <link rel="stylesheet" href="static/css/login-signup.css">
+
+    <link rel="stylesheet" href="static/css/about-contact.css">
+{% endblock %}
+
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="logo">
+            <h1>Attendance System</h1>
+        </div>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2025 Attendance Management System. All rights reserved.</p>
+        <p><a href="{% url 'terms' %}">Terms & Conditions</a> | <a href="{% url 'privacy' %}">Privacy Policy</a></p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - Attendance Management System{% endblock %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="static/css/login-signup.css">
+{% endblock %}
+
+{% block content %}
+    <div class="form-container">
+        <div class="form-card">
+            <h2>Login</h2>
+            <form action="#" method="POST">
+                {% csrf_token %}
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn">Login</button>
+                    <p>Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

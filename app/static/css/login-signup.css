@@ -1,0 +1,114 @@
+/* Styles for login and signup pages */
+
+/* Page Background with Blur Effect */
+body {
+    background-image: url('/static/images/college-background.jpg'); /* Replace with your background image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Apply a strong blur effect to the page */
+}
+
+.background {
+    filter: blur(10px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;  /* This ensures the blur is behind content */
+}
+
+/* Form Container */
+.form-container {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+/* Form Card */
+.form-card {
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    backdrop-filter: blur(5px); /* Slight blur effect on the card */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    width: 300px;
+    text-align: center;
+}
+
+.form-card h2 {
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    color: #333;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.input-group label {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.form-actions {
+    margin-top: 20px;
+}
+
+.form-actions .btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-actions .btn:hover {
+    background-color: #0056b3;
+}
+
+.form-actions p {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #555;
+}
+
+.form-actions a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.form-actions a:hover {
+    text-decoration: underline;
+}
+
+/* Clear Background on Form Card */
+body .form-container .form-card {
+    background-image: url('/static/images/college-background.jpg'); /* Clear image for the card */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(0); /* No blur on the form card */
+}
