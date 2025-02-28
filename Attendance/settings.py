@@ -56,7 +56,7 @@ ROOT_URLCONF = 'Attendance.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/'templates'],
+        'DIRS': [BASE_DIR / 'app' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -120,14 +120,23 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-
+BASE_DIR = Path(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS=[
-    BASE_DIR/"static",
-                  ]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'app/static'),  # Your app's static files
+    # Add any other directories here
+]
+
+DEBUG = True
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]

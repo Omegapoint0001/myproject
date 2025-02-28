@@ -1,13 +1,115 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Sign Up - Attendance Management System{% endblock %}
 
-{% block extra_styles %}
-    <link rel="stylesheet" href="static/css/login-signup.css">
-{% endblock %}
-
 {% block content %}
-    <div class="form-container">
+    <style>
+        /* Background Image */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: url("{% static 'images/backgroundsign-in.jpg' %}") no-repeat center center/cover;
+            position: relative;
+        }
+
+        /* Blurred Background Effect */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            filter: blur(8px);
+            z-index: -1;
+        }
+
+        /* Form Section - This will NOT affect the navbar */
+        .form-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 80px); /* Adjust to fit below the navbar */
+        }
+
+        /* Signup Form */
+        .form-card {
+            background: rgba(255, 255, 255, 0.85); /* Slight transparency */
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Input Group */
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        /* Form Actions */
+        .form-actions {
+            margin-top: 20px;
+        }
+
+        .form-actions button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .form-actions button:hover {
+            background-color: #45a049;
+        }
+
+        /* Links */
+        .form-actions p {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .form-actions a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .form-actions a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <!-- ✅ Navbar will stay unaffected because it's outside the flex container -->
+  
+
+    <!-- ✅ Only this section is flex, keeping navbar safe -->
+    <div class="form-section">
         <div class="form-card">
             <h2>Sign Up</h2>
             <form action="#" method="POST">
