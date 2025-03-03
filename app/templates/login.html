@@ -44,7 +44,8 @@
             margin-bottom: 5px;
         }
 
-        .input-group input {
+        .input-group input,
+        .input-group select {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
@@ -89,21 +90,54 @@
     <div class="form-container">
         <div class="form-card">
             <h2>Login</h2>
-            <form action="#" method="POST">
+            <form action="{% url 'login' %}" method="POST">
                 {% csrf_token %}
+                
+                <!-- Username Field -->
                 <div class="input-group">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" required>
                 </div>
+
+                <!-- Password Field -->
                 <div class="input-group">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" required>
                 </div>
+
+                <!-- User Type Field -->
+                <div class="input-group">
+                    <label for="user_type">Select User Type</label>
+                    <select id="user_type" name="user_type" required>
+                        <option value="admin">Admin</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="student">Student</option>
+                    </select>
+                </div>
+
+                <!-- Form Actions -->
                 <div class="form-actions">
                     <button type="submit" class="btn">Login</button>
                     <p>Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
+                    <p><a href="{% url 'forgot_password' %}">Forgot Password?</a></p> <!-- Forgot password link -->
                 </div>
             </form>
         </div>
     </div>
+
+    <script>
+        // Frontend validation for login form
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(event) {
+            const userType = document.getElementById('user_type').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (!username || !password) {
+                alert("Please fill in all fields.");
+                event.preventDefault(); // Prevent form submission
+            }
+        });
+    </script>
 {% endblock %}
+
