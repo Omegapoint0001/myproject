@@ -9,7 +9,7 @@ urlpatterns=[
     path('contact/', views.contact, name='contact'),
     path('terms/', views.terms, name='terms'),
     path('privacy/', views.terms, name='privacy'),
-    
+    path('forgot_password/', views.forgot_password, name='forgot_password'),
     
     
         # Dashboard paths

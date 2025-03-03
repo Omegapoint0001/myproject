@@ -2,6 +2,11 @@ from django.shortcuts import render,redirect
 from .models import UserProfile
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.core.mail import send_mail
+from django.contrib.auth.models import User
+from django.conf import settings
+
+
 # Create your views here.
 def home(request):
     return render(request,'home.html')
@@ -40,6 +45,11 @@ def student_dashboard(request):
 
 
 
+def forgot_password(request):
+    # Logic to handle forgot password (like showing a form to reset password)
+    return render(request, 'forgot_password.html')
+
+
 
 
 
@@ -55,20 +65,25 @@ def signup(request):
         email = request.POST["email"]
         password = request.POST["password"]
         confirm_password = request.POST["confirm_password"]
-        user_type = request.POST["user_type"]  # Get user type from form
-
+        user_type = request.POST["user_type"]
+        phone_number = request.POST["phone_number"]
         if password != confirm_password:
             messages.error(request, "Passwords do not match!")
             return redirect("signup")
 
-        # Save data to MySQL table
-        user = UserProfile(username=username, email=email, password=password, user_type=user_type)
-        user.save()
+        # Create user
+        user = User.objects.create_user(username=username, email=email, password=password)
+
+        # Create the user profile and save it
+        user_profile = UserProfile(user=user, user_type=user_type,phone=phone)
+        user_profile.save()
 
         messages.success(request, "Signup successful!")
         return redirect("login")
 
     return render(request, "signup.html")
+
+
 
 
 
@@ -81,6 +96,9 @@ def login_view(request):
         user_type = request.POST.get('user_type')
 
         user = authenticate(username=username, password=password)
+        
+   
+        
         if user is not None:
             login(request, user)
             # Check if user_type matches the one in the form
@@ -92,9 +110,40 @@ def login_view(request):
                     return redirect('teacher_dashboard')
                 elif user_type == "student":
                     return redirect('student_dashboard')
-            else:
-                return redirect('login')  # Redirect back to login if there's a mismatch
+                else:
+                    messages.error(request, "User type mismatch. Please try again.")
+                    return redirect('login')  # Redirect back to login if there's a mismatch
         else:
             # Handle invalid login attempt
-            return render(request, 'login.html', {'error': 'Invalid username or password'})
+            messages.error(request, "Invalid username or password.")
+            return redirect('login')
+
     return render(request, 'login.html')
+
+
+
+def forgot_password(request):
+    if request.method == "POST":
+        email = request.POST["email"]
+        try:
+            user = User.objects.get(email=email)
+            # Generate password reset link or token (implement your logic here)
+            # For example, send a reset link to the email
+            reset_link = "http://yourwebsite.com/reset_password/{token}"  # Replace with actual token
+
+            # Send email (make sure you configure email settings in Django settings.py)
+            send_mail(
+                "Password Reset Request",
+                f"Click the following link to reset your password: {reset_link}",
+                settings.EMAIL_HOST_USER,
+                [email],
+                fail_silently=False,
+            )
+
+            messages.success(request, "A password reset link has been sent to your email.")
+            return redirect('login')  # Redirect to login after sending the link
+        except User.DoesNotExist:
+            messages.error(request, "No account found with that email.")
+            return redirect('forgot_password')  # Stay on the forgot password page if no account is found
+
+    return render(request, "forgot_password.html")
