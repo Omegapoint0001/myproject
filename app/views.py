@@ -31,17 +31,27 @@ def privacy(request):
 
 from django.shortcuts import render
 
-# Admin Dashboard
-def admin_dashboard(request):
-    return render(request, 'admin_dashboard.html')
+from django.contrib.auth.decorators import login_required
 
-# Teacher Dashboard
+@login_required
+def admin_dashboard(request):
+    if request.user.userprofile.user_type != 'admin':
+        return redirect('login')  # Redirect if the user is not an admin
+    users=UserProfile.object.all()
+    return render(request, 'admin_dashboard.html',{'users':users})
+
+@login_required
 def teacher_dashboard(request):
+    if request.user.userprofile.user_type != 'teacher':
+        return redirect('login')  # Redirect if the user is not a teacher
     return render(request, 'teacher_dashboard.html')
 
-# Student Dashboard
+@login_required
 def student_dashboard(request):
+    if request.user.userprofile.user_type != 'student':
+        return redirect('login')  # Redirect if the user is not a student
     return render(request, 'student_dashboard.html')
+
 
 
 
@@ -66,7 +76,7 @@ def signup(request):
         password = request.POST["password"]
         confirm_password = request.POST["confirm_password"]
         user_type = request.POST["user_type"]
-        phone_number = request.POST["phone_number"]
+        phone = request.POST["phone_number"]
         if password != confirm_password:
             messages.error(request, "Passwords do not match!")
             return redirect("signup")

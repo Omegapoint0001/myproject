@@ -14,6 +14,14 @@ class UserProfile(models.Model):
     additional_info = models.TextField(blank=True)  # Can be used to store additional info specific to the user
     phone = models.CharField(max_length=15, blank=True)  # Add phone number field here
 
+    
+    class Meta:
+        permissions = [
+            ("can_mark_attendance", "Can mark attendance"),
+            ("can_view_attendance", "Can view attendance"),
+        ]
+    
+    
     def __str__(self):
         return f"{self.user.username} ({self.user_type})"
 

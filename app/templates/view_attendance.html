@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}View Attendance{% endblock %}
+
+{% block content %}
+    <style>
+        .table-container {
+            margin: 30px auto;
+            width: 80%;
+            max-width: 1200px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+
+    <div class="table-container">
+        <h2>View Attendance</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Example static data -->
+                <tr>
+                    <td>Student 1</td>
+                    <td>2025-03-01</td>
+                    <td>Present</td>
+                </tr>
+                <tr>
+                    <td>Student 2</td>
+                    <td>2025-03-01</td>
+                    <td>Absent</td>
+                </tr>
+                <!-- Dynamically loop over student attendance records -->
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

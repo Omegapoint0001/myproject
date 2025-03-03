@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Class Schedule{% endblock %}
+
+{% block content %}
+    <style>
+        .table-container {
+            margin: 30px auto;
+            width: 80%;
+            max-width: 1200px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+
+    <div class="table-container">
+        <h2>Class Schedule</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>Day</th>
+                    <th>Time</th>
+                    <th>Room</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Example static data, dynamically loop over schedule -->
+                <tr>
+                    <td>Math 101</td>
+                    <td>Monday</td>
+                    <td>9:00 AM - 10:30 AM</td>
+                    <td>Room 101</td>
+                </tr>
+                <tr>
+                    <td>Science 202</td>
+                    <td>Tuesday</td>
+                    <td>11:00 AM - 12:30 PM</td>
+                    <td>Room 202</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block content %}
+    <style>
+        .notification-container {
+            margin: 30px auto;
+            width: 80%;
+            max-width: 1200px;
+        }
+
+        .notification-card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .notification-card p {
+            margin: 0;
+        }
+
+        .notification-card span {
+            color: #777;
+            font-size: 14px;
+        }
+    </style>
+
+    <div class="notification-container">
+        <h2>Notifications</h2>
+
+        <!-- Example static data -->
+        <div class="notification-card">
+            <p>You have a leave request approved.</p>
+            <span>2025-03-01</span>
+        </div>
+        <div class="notification-card">
+            <p>New attendance records have been updated.</p>
+            <span>2025-03-02</span>
+        </div>
+    </div>
+{% endblock %}

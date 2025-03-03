@@ -28,30 +28,35 @@
             z-index: -1;
         }
 
-        /* Form Section - This will NOT affect the navbar */
+        /* Form Section */
         .form-section {
             display: flex;
             justify-content: center;
             align-items: center;
             height: calc(100vh - 80px); /* Adjust to fit below the navbar */
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-        /* Signup Form */
+        /* Signup Form Card */
         .form-card {
-            background: rgba(255, 255, 255, 0.85); /* Slight transparency */
+            background: rgba(255, 255, 255, 0.85);
             border-radius: 8px;
             padding: 30px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
+            min-height: 700px;
             text-align: center;
             position: relative;
             backdrop-filter: blur(5px);
+            box-sizing: border-box;
+            margin: 0 auto;
         }
 
         /* Input Group */
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             text-align: left;
         }
 
@@ -61,12 +66,14 @@
             margin-bottom: 5px;
         }
 
-        .input-group input {
+        .input-group input,
+        .input-group select {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ddd;
             border-radius: 4px;
             font-size: 16px;
+            box-sizing: border-box;
         }
 
         /* Form Actions */
@@ -77,7 +84,7 @@
         .form-actions button {
             background-color: #4CAF50;
             color: white;
-            padding: 12px;
+            padding: 14px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -105,60 +112,81 @@
         }
 
         /* Style the select dropdown */
-.input-group select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-    background-color: #fff;
-    color: #333;
-    appearance: none; /* Remove default dropdown arrow */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-}
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: #fff;
+            color: #333;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+        /* Remove number input arrows */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
 
-/* Add custom arrow to select */
-.input-group select::-ms-expand {
-    display: none; /* Hide default arrow in IE */
-}
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
 
-.input-group {
-    position: relative;
-}
+        /* Add custom arrow to select */
+        .input-group select::-ms-expand {
+            display: none; /* Hide default arrow in IE */
+        }
 
-.input-group select::after {
-    content: "▼";  /* Custom arrow */
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    font-size: 12px;
-    color: #666;
-}
+        .input-group {
+            position: relative;
+        }
 
-/* Hover effect */
-.input-group select:hover {
-    border-color: #4CAF50;
-}
+        .input-group select::after {
+            content: "▼";  /* Custom arrow */
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            font-size: 12px;
+            color: #666;
+        }
 
-/* Focus effect */
-.input-group select:focus {
-    outline: none;
-    border-color: #4CAF50;
-    box-shadow: 0 0 8px rgba(72, 239, 128, 0.6);
-}
+        /* Hover effect */
+        .input-group select:hover {
+            border-color: #4CAF50;
+        }
 
+        /* Focus effect */
+        .input-group select:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 8px rgba(72, 239, 128, 0.6);
+        }
 
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .form-card {
+                padding: 20px;
+                max-width: 100%;
+            }
 
+            .input-group input,
+            .input-group select {
+                font-size: 14px;
+                padding: 10px;
+            }
 
+            .form-actions button {
+                padding: 12px;
+            }
+        }
     </style>
 
-    <!-- ✅ Navbar will stay unaffected because it's outside the flex container -->
-  
-
-    <!-- ✅ Only this section is flex, keeping navbar safe -->
+    <!-- Form Section with Flex Layout -->
     <div class="form-section">
         <div class="form-card">
             <h2>Sign Up</h2>
@@ -180,11 +208,10 @@
                     <label for="confirm_password">Confirm Password</label>
                     <input type="password" id="confirm_password" name="confirm_password" required>
                 </div>
-            </div>
-            <div class="input-group">
-                <label for="phone">Mobile Number</label>
-                <input type="number" id="phone" name="phone" required>
-            </div>
+                <div class="input-group">
+                    <label for="phone">Mobile Number</label>
+                    <input type="number" id="phone" name="phone" required>
+                </div>
                 <div class="input-group">
                     <label for="user_type">Select User Type</label>
                     <select id="user_type" name="user_type" required>

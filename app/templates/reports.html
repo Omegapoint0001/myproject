@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Reports{% endblock %}
+
+{% block content %}
+    <style>
+        .report-container {
+            margin: 30px auto;
+            width: 80%;
+            max-width: 1200px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+
+    <div class="report-container">
+        <h2>Generate Reports</h2>
+        <div class="button-container">
+            <button>Attendance Report</button>
+            <button>Leave Request Report</button>
+            <button>Class Performance Report</button>
+        </div>
+    </div>
+{% endblock %}
+
