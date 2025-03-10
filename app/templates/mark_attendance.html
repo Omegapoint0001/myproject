@@ -10,155 +10,169 @@
         <div class="error">{{ error }}</div>
     {% endif %}
 
-    <style>
-        /* General Styles */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-        }
-
-        h2 {
-            color: #333;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        h3 {
-            margin-top: 20px;
-            color: #333;
-        }
-
-        .error {
-            color: red;
-            text-align: center;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        /* Form Styles */
-        form {
-            background-color: white;
-            padding: 20px;
-            max-width: 500px;
-            margin: 0 auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-
-        select, input[type="checkbox"] {
-            width: 100%;
-            padding: 8px;
-            margin: 5px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        select {
-            font-size: 16px;
-        }
-
-        .attendance-hours label {
-            display: inline-block;
-            font-size: 14px;
-            margin-right: 15px;
-        }
-
-        /* Button Styles */
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 20px;
-            width: 100%;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 600px) {
+ 
+        <style>
+            /* Global Styles */
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+            }
+    
+            /* Container for the form */
+            .form-container {
+                width: 50%;
+                margin: 50px auto;
+                padding: 20px;
+                background-color: white;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+    
+            h1 {
+                text-align: center;
+                color: #333;
+            }
+    
+            /* Form Styles */
             .form-group {
-                margin-bottom: 10px;
+                margin-bottom: 20px;
             }
-
-            h2 {
-                font-size: 24px;
+    
+            label {
+                font-size: 16px;
+                color: #333;
+                display: block;
+                margin-bottom: 5px;
             }
-
-            h3 {
-                font-size: 20px;
+    
+            select, input[type="checkbox"] {
+                width: 100%;
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                font-size: 14px;
             }
-
-            button {
-                font-size: 18px;
+    
+            select:focus, input[type="checkbox"]:focus {
+                outline: none;
+                border-color: #007bff;
+            }
+    
+            .attendance-hours label {
+                font-size: 16px;
+                display: inline-block;
+                margin-right: 15px;
+            }
+    
+            /* Submit Button */
+            button[type="submit"] {
+                background-color: #007bff;
+                color: white;
+                border: none;
+                padding: 12px 20px;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+                width: 100%;
+            }
+    
+            button[type="submit"]:hover {
+                background-color: #0056b3;
+            }
+    
+            /* Responsive Styles */
+            @media (max-width: 768px) {
+                .form-container {
+                    width: 80%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+    
+    <div class="form-container">
+        <h1>Mark Attendance</h1>
+    
+        <form method="POST" action="{% url 'mark_attendance' %}">
+            {% csrf_token %}
+    
+            <!-- Department Dropdown -->
+            <div class="form-group">
+                <label for="department">Department</label>
+                <select id="department" name="department" required>
+                    <option value="">Select Department</option>
+                    {% for department in departments %}
+                        <option value="{{ department.id }}">{{ department.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+    
+            <!-- Semester Dropdown -->
+            <div class="form-group">
+                <label for="semester">Semester</label>
+                <select id="semester" name="semester" required>
+                    <option value="">Select Semester</option>
+                    {% for semester in semesters %}
+                        <option value="{{ semester.id }}">{{ semester.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+    
+            <!-- Student Dropdown (Will be populated via AJAX) -->
+            <div class="form-group">
+                <label for="student">Student</label>
+                <select id="student" name="student" required>
+                    <option value="">Select Student</option>
+                    <!-- Students will be populated here based on department and semester -->
+                </select>
+            </div>
+    
+            <h3>Mark Attendance</h3>
+            <div class="attendance-hours">
+                {% for hour in "1 2 3 4 5 6" %}
+                    <label>
+                        <input type="checkbox" name="hour_{{ hour }}" value="True"> Hour {{ hour }}
+                    </label><br>
+                {% endfor %}
+            </div>
+    
+            <button type="submit">Mark Attendance</button>
+        </form>
+    </div>
+    
+    <script>
+        // Add event listener to department and semester dropdowns
+        document.getElementById('department').addEventListener('change', updateStudents);
+        document.getElementById('semester').addEventListener('change', updateStudents);
+    
+        // Function to update the students based on department and semester
+        function updateStudents() {
+            var departmentId = document.getElementById('department').value;
+            var semesterId = document.getElementById('semester').value;
+    
+            // Make sure both department and semester are selected
+            if (departmentId && semesterId) {
+                // Make an AJAX request to fetch the students
+                fetch(`/get_students/${departmentId}/${semesterId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Populate the student dropdown with the received data
+                        var studentSelect = document.getElementById('student');
+                        studentSelect.innerHTML = '<option value="">Select Student</option>'; // Reset the list
+                        data.students.forEach(function(student) {
+                            var option = document.createElement('option');
+                            option.value = student.id;
+                            option.textContent = student.name;
+                            studentSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.log('Error:', error));
             }
         }
-    </style>
-
-    <form method="POST">
-        {% csrf_token %}
-
-        <!-- Department Dropdown -->
-        <div class="form-group">
-            <label for="department">Department</label>
-            <select id="department" name="department" required>
-                <option value="">Select Department</option>
-                {% for department in departments %}
-                    <option value="{{ department.id }}">{{ department.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <!-- Semester Dropdown -->
-        <div class="form-group">
-            <label for="semester">Semester</label>
-            <select id="semester" name="semester" required>
-                <option value="">Select Semester</option>
-                {% for semester in semesters %}
-                    <option value="{{ semester.id }}">{{ semester.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <!-- Student Dropdown -->
-        <div class="form-group">
-            <label for="student">Student</label>
-            <select id="student" name="student" required>
-                <option value="">Select Student</option>
-                {% for student in students %}
-                    <option value="{{ student.id }}">{{ student.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <h3>Mark Attendance</h3>
-        <div class="attendance-hours">
-            {% for hour in 1|to:8 %}
-                <label>
-                    <input type="checkbox" name="hour_{{ hour }}"> Hour {{ hour }}
-                </label><br>
-            {% endfor %}
-        </div>
-
-        <button type="submit">Mark Attendance</button>
-    </form>
-
-{% endblock %}
+    </script>
+    
+    </body>
+    </html>
+    

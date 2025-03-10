@@ -42,11 +42,6 @@ class Teacher(models.Model):
         return f"{self.user.username} - {self.subject} ({self.department})"
 
 
-# Student Model
-class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    grade = models.CharField(max_length=100)
-    major = models.CharField(max_length=100)
 
     def __str__(self):
         return f"{self.user.username} - {self.major}"
@@ -79,7 +74,7 @@ class Semester(models.Model):
 
 
 # Student Model (for Attendance System)
-class Student(models.Model):
+class AttendanceStudent(models.Model):
     name = models.CharField(max_length=200)
     department = models.ForeignKey(Department, related_name="students", on_delete=models.CASCADE)
 
@@ -89,7 +84,7 @@ class Student(models.Model):
 
 # Attendance Model
 class Attendance(models.Model):
-    student = models.ForeignKey(Student, related_name="attendances", on_delete=models.CASCADE)
+    student = models.ForeignKey(AttendanceStudent, related_name="attendances", on_delete=models.CASCADE)
     semester = models.ForeignKey(Semester, related_name="attendances", on_delete=models.CASCADE)
     date = models.DateField(default=datetime.date.today)
     

@@ -90,7 +90,8 @@
     <div class="form-container">
         <div class="form-card">
             <h2>Login</h2>
-            <form action="{% url 'login' %}" method="POST">
+            <form method="POST" id="login-form" action="{% url 'login' %}">
+
                 {% csrf_token %}
                 
                 <!-- Username Field -->
@@ -134,11 +135,11 @@
             const userType = document.getElementById("user_type").value;
             
             // Based on the selected user type, redirect to the correct dashboard
-            if (user_type === "admin") {
+            if (userType === "admin") {
                 window.location.href = "/admin_dashboard/";  // Admin Dashboard URL
-            } else if (user_type === "teacher") {
+            } else if (userType === "teacher") {
                 window.location.href = "/teacher_dashboard/";  // Teacher Dashboard URL
-            } else if (user_type === "student") {
+            } else if (userType === "student") {
                 window.location.href = "/student_dashboard/";  // Student Dashboard URL
             }
         });

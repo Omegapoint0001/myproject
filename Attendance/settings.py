@@ -140,3 +140,9 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
+
+CSRF_COOKIE_NAME = "csrftoken"  # The name of the CSRF cookie
+CSRF_HEADER_NAME = "HTTP_X_CSRFTOKEN"  # The header used for CSRF validation
+CSRF_COOKIE_SECURE = False  # Set to True if using HTTPS in production
+
+CSRF_COOKIE_SECURE = False  # Allow non-HTTPS CSRF cookie if you're not using HTTPS.

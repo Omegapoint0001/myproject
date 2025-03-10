@@ -1,6 +1,6 @@
 
 from django.shortcuts import render, redirect
-from .models import UserProfile,Student, Department, Semester, Attendance
+from .models import UserProfile,AttendanceStudent, Department, Semester, Attendance
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.core.mail import send_mail
@@ -170,7 +170,7 @@ def privacy(request):
 def mark_attendance(request):
     departments = Department.objects.all()  # Get all departments
     semesters = Semester.objects.all()      # Get all semesters
-    students = Student.objects.all()        # Get all students
+    students = AttendanceStudent.objects.all()        # Get all students
     
     if request.method == "POST":
         # Handle form submission
@@ -182,7 +182,7 @@ def mark_attendance(request):
         
         # Make sure student and semester are valid
         if student_id and semester_id:
-            student = Student.objects.get(id=student_id)
+            student = AttendanceStudent.objects.get(id=student_id)
             semester = Semester.objects.get(id=semester_id)
             
             # Check if attendance for today has already been marked
@@ -218,3 +218,69 @@ def mark_attendance(request):
             })
 
     return render(request, 'mark_attendance.html', {'students': students, 'semesters': semesters, 'departments': departments})
+
+from django.shortcuts import render, redirect
+from .models import AttendanceStudent, Semester, Attendance
+from .forms import AttendanceForm
+from django.utils import timezone
+
+def mark_attendance(request, semester_id):
+    semester = Semester.objects.get(id=semester_id)
+    students = AttendanceStudent.objects.filter(department=semester.department)  # Get students for this semester
+
+    if request.method == 'POST':
+        for student in students:
+            attendance_data = request.POST.get(f'attendance_{student.id}')  # Collect the attendance data for each student
+            attendance_instance = Attendance.objects.get_or_create(student=student, semester=semester, date=timezone.now().date())[0]
+            # Update attendance for the hours (for example)
+            attendance_instance.hour_1 = 'hour_1' in attendance_data
+            attendance_instance.hour_2 = 'hour_2' in attendance_data
+            attendance_instance.hour_3 = 'hour_3' in attendance_data
+            attendance_instance.hour_4 = 'hour_4' in attendance_data
+            attendance_instance.hour_5 = 'hour_5' in attendance_data
+            attendance_instance.hour_6 = 'hour_6' in attendance_data
+            attendance_instance.save()
+
+        return redirect('attendance_list', semester_id=semester.id)  # Redirect to a page showing all attendance
+
+    return render(request, 'mark_attendance.html', {
+        'semester': semester,
+        'students': students
+    })
+
+
+from django.http import JsonResponse
+from .models import Department, Semester,AttendanceStudent
+
+def get_students(request, department_id, semester_id):
+    try:
+        # Get the department and semester based on the provided IDs
+        department = Department.objects.get(id=department_id)
+        semester = Semester.objects.get(id=semester_id)
+
+        # Get all students in this department and semester (you may need a relationship model to link these)
+        students = Student.objects.filter(department=department)
+
+        # Prepare the response data
+        student_data = [{"id": student.id, "name": student.name} for student in students]
+
+        # Return the data as JSON
+        return JsonResponse({"students": student_data})
+
+    except Department.DoesNotExist or Semester.DoesNotExist:
+        return JsonResponse({"error": "Invalid department or semester"}, status=400)
+
+# views.py
+from django.shortcuts import render
+
+def admin_dashboard(request):
+    # Your logic for admin dashboard
+    return render(request, 'admin_dashboard.html')
+
+def teacher_dashboard(request):
+    # Your logic for teacher dashboard
+    return render(request, 'teacher_dashboard.html')
+
+def student_dashboard(request):
+    # Your logic for student dashboard
+    return render(request, 'student_dashboard.html')
