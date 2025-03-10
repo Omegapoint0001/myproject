@@ -284,3 +284,88 @@ def teacher_dashboard(request):
 def student_dashboard(request):
     # Your logic for student dashboard
     return render(request, 'student_dashboard.html')
+
+
+
+#--------------------------------------------
+
+# views.py
+import csv
+from django.shortcuts import render
+from django.http import HttpResponse
+from .forms import UploadStudentFileForm
+from .models import AttendanceStudent, Department
+
+def upload_students(request):
+    if request.method == 'POST' and request.FILES['file']:
+        form = UploadStudentFileForm(request.POST, request.FILES)
+        
+        if form.is_valid():
+            # Read the CSV file
+            file = request.FILES['file']
+            file_data = file.read().decode('utf-8')
+            lines = file_data.split('\n')
+            
+            # Parse each line in the CSV file
+            for line in lines:
+                fields = line.split(',')
+                
+                if len(fields) > 1:  # Make sure we have enough data
+                    student_name = fields[0]
+                    department_name = fields[1]  # Assuming department name is the second field
+                    
+                    # Fetch the department from the database, or create a new one
+                    department, created = Department.objects.get_or_create(name=department_name)
+                    
+                    # Create a new student record
+                    AttendanceStudent.objects.create(name=student_name, department=department)
+                    
+            return HttpResponse("Students have been uploaded successfully!")
+        else:
+            return HttpResponse("Invalid file format.")
+    else:
+        form = UploadStudentFileForm()
+
+    return render(request, 'upload_students.html', {'form': form})
+#-----------------------------------------
+login_required
+def upload_students(request):
+    # Ensure only admin users can upload the students
+    if not request.user.is_superuser:
+        messages.error(request, "You do not have permission to upload student data.")
+        return redirect('home')  # Redirect to home or any other page
+
+    if request.method == 'POST' and request.FILES['file']:
+        form = UploadStudentFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Process the file (CSV)
+            handle_uploaded_file(request.FILES['file'])
+            messages.success(request, "Student list uploaded successfully!")
+            return redirect('student_list')  # Or wherever you want to redirect
+    else:
+        form = UploadStudentFileForm()
+
+    return render(request, 'upload_students.html', {'form': form})
+
+# Helper function to handle file processing
+def handle_uploaded_file(file):
+    # Example of processing the uploaded CSV file
+    csv_file = file.read().decode('utf-8').splitlines()
+    reader = csv.reader(csv_file)
+    for row in reader:
+        student_name = row[0]
+        department_name = row[1]
+        # Create or update student in database here
+        department = Department.objects.get(name=department_name)
+        Student.objects.create(name=student_name, department=department)
+        
+        
+        
+def mark_attendance(request):
+    return render(request, 'mark_attendance.html')
+
+def view_classes(request):
+    return render(request, 'view_classes.html')
+
+def reports(request):
+    return render(request, 'reports.html')

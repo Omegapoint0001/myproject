@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Students</title>
+
+    <style>
+        /* Basic reset */
+        body, h2, form {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Body background and text color */
+        body {
+            background-color: #f4f4f9;
+            color: #333;
+            padding: 20px;
+        }
+
+        /* Container for the upload form */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Heading styles */
+        h2 {
+            text-align: center;
+            color: #2d3e50;
+            margin-bottom: 20px;
+        }
+
+        /* Style for form elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-size: 1.1em;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .form-group button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .form-group button:hover {
+            background-color: #45a049;
+        }
+
+        /* Footer section with links */
+        .form-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-actions a {
+            text-decoration: none;
+            color: #4CAF50;
+        }
+
+        .form-actions a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Upload Student List</h2>
+
+        <!-- Form to upload CSV file -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Render the form field for file input -->
+            <div class="form-group">
+                {{ form.as_p }}
+            </div>
+            
+            <!-- Submit button -->
+            <div class="form-group">
+                <button type="submit">Upload</button>
+            </div>
+        </form>
+
+        <!-- Footer section with links -->
+        <div class="form-actions">
+            <p>Need help? <a href="#">Contact Support</a></p>
+        </div>
+    </div>
+
+</body>
+</html>

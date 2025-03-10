@@ -53,9 +53,9 @@
         <div class="dashboard-card">
             <h2>Welcome to the Teacher Dashboard</h2>
             <p>You can manage your classes, view attendance, and more.</p>
-            <button class="button">View Classes</button>
-            <button class="button">Mark Attendance</button>
-            <button class="button">View Reports</button>
+            <a href="{% url 'view_classes' %}"> <button class="button">View Classes</button></a>
+            <a href="{% url 'mark_attendance' %}"></a><button class="button">Mark Attendance</button></a>
+            <a href="{% url 'reports' %}"><button class="button">View Reports</button></a>
         </div>
     </div>
 {% endblock %}
