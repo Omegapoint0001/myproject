@@ -126,16 +126,20 @@
     </div>
 
     <script>
-        // Frontend validation for login form
-        const form = document.querySelector('form');
-        form.addEventListener('submit', function(event) {
-            const userType = document.getElementById('user_type').value;
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+        // JavaScript to handle the form submission and redirection
+        document.getElementById("login-form").addEventListener("submit", function(event) {
+            event.preventDefault();  // Prevent default form submission
 
-            if (!username || !password) {
-                alert("Please fill in all fields.");
-                event.preventDefault(); // Prevent form submission
+            // Get the user type from the dropdown
+            const userType = document.getElementById("user_type").value;
+            
+            // Based on the selected user type, redirect to the correct dashboard
+            if (user_type === "admin") {
+                window.location.href = "/admin_dashboard/";  // Admin Dashboard URL
+            } else if (user_type === "teacher") {
+                window.location.href = "/teacher_dashboard/";  // Teacher Dashboard URL
+            } else if (user_type === "student") {
+                window.location.href = "/student_dashboard/";  // Student Dashboard URL
             }
         });
     </script>
